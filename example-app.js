@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 var fs = require('fs');
-var GitkitClient = require('./gitkitclient.js');
+var GitkitClient = require('gitkitclient');
 var gitkitClient = new GitkitClient(JSON.parse(fs.readFileSync('./gitkit-server-config.json')));
 
 // index page

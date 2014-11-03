@@ -15,7 +15,7 @@
  */
 
 var fs = require('fs');
-var GitkitClient = require('./gitkitclient.js');
+var GitkitClient = require('gitkitclient');
 var gitkitClient = new GitkitClient(JSON.parse(fs.readFileSync('./gitkit-server-config.json')));
 
 // Get account information by email
