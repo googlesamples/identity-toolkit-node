@@ -33,8 +33,8 @@ var gitkitClient = new GitkitClient(JSON.parse(fs.readFileSync('./gitkit-server-
 app.get('/', renderIndexPage);
 
 // widget page hosting Gitkit javascript
-app.get('/widget', renderGitkitWidgetPage);
-app.post('/widget', renderGitkitWidgetPage);
+app.get('/gitkit', renderGitkitWidgetPage);
+app.post('/gitkit', renderGitkitWidgetPage);
 
 // Ajax endpoint to send email for password-recovery and email change event
 app.post('/sendemail', renderSendEmailPage);
