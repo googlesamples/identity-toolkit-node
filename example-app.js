@@ -66,6 +66,7 @@ function renderSendEmailPage(req, res) {
     if (err) {
       console.log('Error: ' + JSON.stringify(err));
     } else {
+      // Add code here to send email
       console.log('Send email: ' + JSON.stringify(resp));
     }
     res.statusCode = 200;
