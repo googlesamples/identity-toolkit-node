@@ -18,22 +18,56 @@ var fs = require('fs');
 var GitkitClient = require('gitkitclient');
 var gitkitClient = new GitkitClient(JSON.parse(fs.readFileSync('./gitkit-server-config.json')));
 
+var args = process.argv.slice(2);
+var cmd = args[0];
+
+if (cmd === 'get') {
+  if (args[1] === '-e') {
+    getAccountByEmail(args[2]);
+  } else if (args[1] === '-l') {
+    getAccountById(args[2]);
+  } else {
+    showHelp();
+  }
+} else if (cmd === 'download') {
+  downloadAccount();
+} else if (cmd === 'upload') {
+  uploadSampleAccounts();
+} else if (cmd === 'delete') {
+  if (args[1] === '-l') {
+    deleteAccount(args[2]);
+  } else {
+    showHelp();
+  }
+} else {
+  showHelp();
+}
+
+function showHelp() {
+  console.log('\nUsage: node command-tool.js <command> <options> ...');
+  console.log('\nAvailable commands:\n');
+  console.log('  get [-e <email>|-l <localId>]\t\tGet account information.');
+  console.log('  download\t\t\t\tDownload all accounts information from Identity Toolkit.');
+  console.log('  upload\t\t\t\tBatch upload sample accounts.');
+  console.log('  delete -l <localId>\t\t\tDelete an account.');
+}
+
 // Get account information by email
-/*
-  gitkitClient.getAccountByEmail("1234@example.com", function(err, resp) {
+function getAccountByEmail(email) {
+  gitkitClient.getAccountByEmail(email, function(err, resp) {
     console.log('getAccountByEmail resp: ' + JSON.stringify(resp) + ' / ' + JSON.stringify(err));
   });
-*/
+}
 
 // Get account info by user's local id
-/*
-  gitkitClient.getAccountById("1234", function(err, resp) {
+function getAccountById(localId) {
+  gitkitClient.getAccountById(localId, function(err, resp) {
     console.log('getAccountById resp: ' + JSON.stringify(resp) + ' / ' + JSON.stringify(err));
   });
-*/
+}
 
 // Download all accounts info from Gitkit
-/*
+function downloadAccount() {
   gitkitClient.downloadAccount(2, function(err, accounts){
     if (err) {
       console.log("error: " + err);
@@ -45,20 +79,21 @@ var gitkitClient = new GitkitClient(JSON.parse(fs.readFileSync('./gitkit-server-
       }
     }
   });
-*/
+}
 
 // Batch upload existing accounts
-/*
+function uploadSampleAccounts() {
   var hashKey = new Buffer("key123");
   var hashOptions = {
     'hashAlgorithm': 'HMAC_SHA1',
     'hashKey': hashKey
   };
-  gitkitClient.uploadAccount(createNewUsers(hashKey), hashOptions, function (err, resp){
+  var users = createNewUsers(hashKey);
+  gitkitClient.uploadAccount(users, hashOptions, function (err, resp){
     if (err) {
       console.log("error: " + JSON.stringify(err));
     } else {
-      console.log(JSON.stringify(resp));
+      console.log("account uploaded: " + JSON.stringify(users) + "\n" + JSON.stringify(resp));
     }
   });
 
@@ -78,15 +113,15 @@ var gitkitClient = new GitkitClient(JSON.parse(fs.readFileSync('./gitkit-server-
     };
     return [user1, user2];
   }
-*/
+}
 
 // Delete an account
-/*
-  gitkitClient.deleteAccount('1234nodejs', function(err, response){
+function deleteAccount(localId) {
+  gitkitClient.deleteAccount(localId, function(err, response){
     if (err) {
-      console.log("error: " + err);
+      console.log("error: " + JSON.stringify(err));
     } else {
       console.log(JSON.stringify(response));
     }
   });
-*/
+}
