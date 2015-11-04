@@ -1,0 +1,32 @@
+{
+  "name": "identity-toolkit-nodejs-sample",
+  "version": "0.0.1",
+  "author": "Google Inc.",
+  "description": "Google Identity Toolkit sample app for Node.js",
+  "contributors": [
+    {
+      "name": "Jin Liu"
+    }
+  ],
+  "main": "./example-app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/googlesamples/identity-toolkit-node.git"
+  },
+  "keywords": [
+    "google",
+    "gitkit",
+    "identity",
+    "toolkit",
+    "sample",
+    "application",
+    "nodejs"
+  ],
+  "dependencies": {
+    "body-parser": "^1.0.0",
+    "cookie-parser": "^1.4.0",
+    "express": "^4.0.0",
+    "gitkitclient": "^0.0.4"
+  },
+  "license": "Apache 2"
+}
