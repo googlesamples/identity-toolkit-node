@@ -68,7 +68,7 @@ function getAccountById(localId) {
 
 // Download all accounts info from Gitkit
 function downloadAccount() {
-  gitkitClient.downloadAccount(2, function(err, accounts){
+  gitkitClient.downloadAccount(20, function(err, accounts){
     if (err) {
       console.log("error: " + err);
     } else {
