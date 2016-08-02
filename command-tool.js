@@ -30,7 +30,11 @@ if (cmd === 'get') {
     showHelp();
   }
 } else if (cmd === 'download') {
-  downloadAccount();
+  if (args[1] === '-p') {
+    downloadAccount(args[2]);
+  } else {
+    downloadAccount();
+  }
 } else if (cmd === 'upload') {
   uploadSampleAccounts();
 } else if (cmd === 'delete') {
@@ -47,7 +51,7 @@ function showHelp() {
   console.log('\nUsage: node command-tool.js <command> <options> ...');
   console.log('\nAvailable commands:\n');
   console.log('  get [-e <email>|-l <localId>]\t\tGet account information.');
-  console.log('  download\t\t\t\tDownload all accounts information from Identity Toolkit.');
+  console.log('  download [-p <page_size>]\t\tDownload all accounts information from Identity Toolkit.');
   console.log('  upload\t\t\t\tBatch upload sample accounts.');
   console.log('  delete -l <localId>\t\t\tDelete an account.');
 }
@@ -66,19 +70,33 @@ function getAccountById(localId) {
   });
 }
 
-// Download all accounts info from Gitkit
-function downloadAccount() {
-  gitkitClient.downloadAccount(20, function(err, accounts){
+// Download all accounts info from Gitkit. Prints them in the console in JSON format
+function downloadAccount(pageSize) {
+  pageSize = pageSize || 20;
+  var accountsDownloaded = 0;
+  // Begin printing
+  console.log("[");  
+  gitkitClient.downloadAccount(pageSize, function(err, accounts) {
     if (err) {
-      console.log("error: " + err);
+      console.log("]");
+      console.log("// Finished with error: " + err);
     } else {
       if (accounts != null) {
-        console.log(JSON.stringify(accounts));
+        accounts.forEach(function(account) {
+          if (accountsDownloaded > 0) {
+            console.log(",");
+          }
+          console.log(JSON.stringify(account));
+          accountsDownloaded++;
+        });
       } else {
-        console.log("finished");
+        console.log("]");
+        console.log("// Finished successfully");
       }
     }
   });
+  
+  console.log("// Accounts downloaded: " + accountsDownloaded);
 }
 
 // Batch upload existing accounts
