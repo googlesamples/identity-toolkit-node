@@ -75,7 +75,7 @@ function downloadAccount(pageSize) {
   pageSize = pageSize || 20;
   var accountsDownloaded = 0;
   // Begin printing
-  console.log("[");  
+  console.log("[");
   gitkitClient.downloadAccount(pageSize, function(err, accounts) {
     if (err) {
       console.log("]");
@@ -91,12 +91,11 @@ function downloadAccount(pageSize) {
         });
       } else {
         console.log("]");
+        console.log("// Accounts downloaded: " + accountsDownloaded);
         console.log("// Finished successfully");
       }
     }
   });
-  
-  console.log("// Accounts downloaded: " + accountsDownloaded);
 }
 
 // Batch upload existing accounts
